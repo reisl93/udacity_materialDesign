@@ -50,7 +50,8 @@ public class ArticleDetailActivity extends ActionBarActivity
 
         getLoaderManager().initLoader(0, null, this);
 
-        mPagerAdapter = new MyPagerAdapter(getFragmentManager());
+        FragmentManager fragmentManager = getFragmentManager();
+        mPagerAdapter = new MyPagerAdapter(fragmentManager);
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
         mPager.setPageMargin((int) TypedValue

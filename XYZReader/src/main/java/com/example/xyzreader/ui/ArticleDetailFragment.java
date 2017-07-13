@@ -2,6 +2,7 @@ package com.example.xyzreader.ui;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -15,7 +16,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
@@ -56,6 +60,7 @@ public class ArticleDetailFragment extends Fragment implements
 
     private int mTopInset;
     private View mPhotoContainerView;
+
     private ImageView mPhotoView;
     private int mScrollY;
     private boolean mIsCard = false;
@@ -149,6 +154,15 @@ public class ArticleDetailFragment extends Fragment implements
                         .getIntent(), getString(R.string.action_share)));
             }
         });
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setEnterSharedElementCallback(new SharedElementCallback() {
+                @Override
+                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                    sharedElements.put(getString(R.string.shared_background_photo), mPhotoView);
+                }
+            });
+        }*/
 
         bindViews();
         updateStatusBar();

@@ -1,5 +1,6 @@
 package com.example.xyzreader.ui;
 
+import android.app.ActivityOptions;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +9,10 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.transition.AutoTransition;
+import android.support.transition.Fade;
+import android.support.transition.TransitionManager;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +20,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
+import android.transition.Explode;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -140,14 +146,23 @@ public class ArticleListActivity extends ActionBarActivity implements
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.list_item_article, parent, false);
             final ViewHolder vh = new ViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Bundle bundle = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this,
+                                vh.thumbnailView, vh.thumbnailView.getTransitionName()).toBundle();
+                    }
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))), bundle);
+                    TransitionManager.beginDelayedTransition(
+                            (ViewGroup) findViewById(R.id.article_list_root),
+                            new AutoTransition());
+                    mRecyclerView.setVisibility(View.INVISIBLE);
                 }
             });
             return vh;

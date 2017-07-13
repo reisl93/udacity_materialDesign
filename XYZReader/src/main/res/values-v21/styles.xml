@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Bacon.Main">
+        <item name="android:windowEnterTransition">@transition/article_list_explode</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+    <style name="Theme.Bacon.Detail">
+        <item name="android:windowEnterTransition">@transition/article_list_explode</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="default_fab">
+        <item name="android:elevation">@dimen/fab_elevation</item>
+    </style>
+</resources>
